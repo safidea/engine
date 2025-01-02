@@ -6,7 +6,7 @@ import type { Field } from '@domain/entities/Field'
 import type { Monitor } from './Monitor'
 import type { IdGenerator } from './IdGenerator'
 
-export type DatabaseDriverName = 'PostgreSQL' | 'SQLite' | 'Bun'
+export type DatabaseDriverName = 'PostgreSQL' | 'SQLite'
 
 export interface DatabaseConfig {
   driver: DatabaseDriverName

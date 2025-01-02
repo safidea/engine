@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
 test('should display a paragraph in app page', async ({ page }) => {
@@ -19,7 +19,7 @@ test('should display a paragraph in app page', async ({ page }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -51,7 +51,7 @@ test('should display a title in a production env', async ({ page }) => {
       env: 'production',
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -82,7 +82,7 @@ test('should display a page favicon', async ({ page }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN

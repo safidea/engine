@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 import Database from '@test/drivers/database'
 import Queue from '@test/drivers/queue'
@@ -34,7 +34,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     await app.start(config)
 
     // WHEN

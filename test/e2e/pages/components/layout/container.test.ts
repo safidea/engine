@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
 test('should render a container', async ({ page }) => {
@@ -23,7 +23,7 @@ test('should render a container', async ({ page }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -57,7 +57,7 @@ test('should render a container in app page', async ({ page }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -92,7 +92,7 @@ test('should render the container with id', async ({ page }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -124,7 +124,7 @@ test.describe('Breakpoint', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -163,7 +163,7 @@ test.describe('Breakpoint', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -202,7 +202,7 @@ test.describe('Breakpoint', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -241,7 +241,7 @@ test.describe('Breakpoint', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -280,7 +280,7 @@ test.describe('Breakpoint', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -319,7 +319,7 @@ test.describe('Breakpoint', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -358,7 +358,7 @@ test.describe('Breakpoint', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -398,7 +398,7 @@ test.describe('Center', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -437,7 +437,7 @@ test.describe('Center', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -477,7 +477,7 @@ test.describe('Center', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -517,7 +517,7 @@ test.describe('Center', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -557,7 +557,7 @@ test.describe('Center', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -597,7 +597,7 @@ test.describe('Center', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -637,7 +637,7 @@ test.describe('Center', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -677,7 +677,7 @@ test.describe('Padding', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -712,7 +712,7 @@ test.describe('Padding', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -747,7 +747,7 @@ test.describe('Padding', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN

@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
 test('should not find a created row', async () => {
@@ -32,7 +32,7 @@ test('should not find a created row', async () => {
   }
 
   // WHEN
-  const app = new App()
+  const app = new NodeApp()
   const call = () => app.test(config)
 
   // THEN
@@ -70,7 +70,7 @@ test('should find a created row', async () => {
   }
 
   // WHEN
-  const app = new App()
+  const app = new NodeApp()
   const call = () => app.test(config)
 
   // THEN

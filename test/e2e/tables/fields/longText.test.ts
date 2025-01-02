@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
 test('should create a record with a long text field', async ({ request }) => {
@@ -19,7 +19,7 @@ test('should create a record with a long text field', async ({ request }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN

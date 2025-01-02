@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
 test('should render a markdown component with id', async ({ page }) => {
@@ -19,7 +19,7 @@ test('should render a markdown component with id', async ({ page }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -47,7 +47,7 @@ test('should render a markdown with a Title heading 1 component', async ({ page 
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -77,7 +77,7 @@ test('should render a markdown with a Title heading 2 component', async ({ page 
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -107,7 +107,7 @@ test('should render a markdown with a Title heading 3 component', async ({ page 
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -137,7 +137,7 @@ test('should render a markdown with a Title heading 4 component', async ({ page 
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -167,7 +167,7 @@ test('should render a markdown with a Title heading 5 component', async ({ page 
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -197,7 +197,7 @@ test('should render a markdown with a Title heading 6 component', async ({ page 
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -227,7 +227,7 @@ test('should render a markdown with a Paragraph component', async ({ page }) => 
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -255,7 +255,7 @@ test('should render a markdown with a Divider component', async ({ page }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -283,7 +283,7 @@ test('should render a markdown with a Link component', async ({ page }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -311,7 +311,7 @@ test('should render a markdown with a Image component', async ({ page }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN

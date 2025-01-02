@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
 test.slow()
@@ -88,7 +88,7 @@ test('should login from magic-link provider', async () => {
       secret: 'secret',
     },
   }
-  const app = new App()
+  const app = new NodeApp()
 
   // WHEN
   const call = () => app.test(config)

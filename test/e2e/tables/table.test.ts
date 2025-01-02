@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 import Database from '@test/drivers/database'
 
@@ -27,7 +27,7 @@ Database.each(test, (dbConfig) => {
     }
 
     // WHEN
-    const app = new App()
+    const app = new NodeApp()
     await app.start(config)
 
     // THEN
@@ -52,7 +52,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     await database.table('leads').create()
 
     // WHEN
@@ -84,7 +84,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     await database.table('leads', [{ name: 'email', type: 'TEXT' }]).create()
 
     // WHEN
@@ -119,7 +119,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const leads = database.table('leads', [{ name: 'email_address', type: 'TEXT' }])
     await leads.create()
     await leads.insert({
@@ -162,7 +162,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const leads = database.table('leads', [{ name: 'email', type: 'TEXT' }])
     await leads.create()
     await leads.insert({
@@ -200,7 +200,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     await app.start(config)
     const leads = database.table('leads', [{ name: 'email', type: 'TEXT' }])
     await leads.insertMany([
@@ -255,7 +255,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -285,7 +285,7 @@ Database.each(test, (dbConfig) => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -319,7 +319,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -354,7 +354,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -387,7 +387,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     const today = new Date().toISOString()
 

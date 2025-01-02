@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type CodeRunnerContext, type Config } from '@latechforce/engine'
 import { nanoid } from 'nanoid'
 import fs from 'fs-extra'
@@ -43,7 +43,7 @@ test('should run a TypeScript code', async ({ request }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -98,7 +98,7 @@ test('should run the example TypeScript code', async () => {
       },
     ],
   }
-  const { url } = await new App().start(config)
+  const { url } = await new NodeApp().start(config)
 
   // WHEN
   const response = await fetch(url + '/api/automation/hello-name', {
@@ -147,7 +147,7 @@ test('should run a Typescript code with env variable', async ({ request }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -200,7 +200,7 @@ test('should run a Typescript code with env variable and not showing them in log
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -242,7 +242,7 @@ test('should run a Typescript code with the native Date class', async ({ request
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -285,7 +285,7 @@ test('should run a Typescript code with the native Array class', async ({ reques
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -326,7 +326,7 @@ test('should run a Typescript code with the native Number class', async ({ reque
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -367,7 +367,7 @@ test('should run a Typescript code with the native Boolean class', async ({ requ
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -406,7 +406,7 @@ test('should run a Typescript code with the native URLSearchParams class', async
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN

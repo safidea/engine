@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import Database from '@test/drivers/database'
 import App, { type Config } from '@latechforce/engine'
 
@@ -35,7 +35,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database
       .table('models')
@@ -82,7 +82,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const models = database.table('models')
     await models.create()
     await models.insertMany([
@@ -143,7 +143,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const cars = database.table('cars', [
       {
         name: 'model',

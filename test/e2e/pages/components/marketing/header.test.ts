@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
 test.describe('Header component', () => {
@@ -39,7 +39,7 @@ test.describe('Header component', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -100,7 +100,7 @@ test.describe('Header component', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -150,7 +150,7 @@ test.describe('Header component', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN

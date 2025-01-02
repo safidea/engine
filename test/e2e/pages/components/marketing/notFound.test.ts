@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
 test.describe('NotFound component', () => {
@@ -19,7 +19,7 @@ test.describe('NotFound component', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
 
     // WHEN
     const { url } = await app.start(config)

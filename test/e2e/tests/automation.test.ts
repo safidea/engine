@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
 test('should wait for an automation', async () => {
@@ -60,7 +60,7 @@ test('should wait for an automation', async () => {
   }
 
   // WHEN
-  const app = new App()
+  const app = new NodeApp()
   const call = () => app.test(config)
 
   // THEN
@@ -111,7 +111,7 @@ test('should find an email in mailbox', async () => {
   }
 
   // WHEN
-  const app = new App()
+  const app = new NodeApp()
   const call = () => app.test(config)
 
   // THEN
@@ -183,7 +183,7 @@ test('should return a success API request', async () => {
   }
 
   // WHEN
-  const app = new App()
+  const app = new NodeApp()
   const call = () => app.test(config)
 
   // THEN
@@ -255,7 +255,7 @@ test('should return a failed API request', async () => {
   }
 
   // WHEN
-  const app = new App()
+  const app = new NodeApp()
   const call = () => app.test(config)
 
   // THEN

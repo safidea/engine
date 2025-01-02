@@ -1,4 +1,4 @@
-import { test, expect, env } from '@test/fixtures'
+import { test, expect, env, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
 test('should get a company', async ({ request }) => {
@@ -32,7 +32,7 @@ test('should get a company', async ({ request }) => {
       },
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN

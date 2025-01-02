@@ -50,7 +50,7 @@ export {
 export type { AppIntegrations } from '@domain/entities/App/Base'
 export type { StartedApp } from '@domain/entities/App/Started'
 export type { StoppedApp } from '@domain/entities/App/Stopped'
-export { packages } from '@infrastructure/drivers/CodeCompilerDriver/JavascriptRunnerDriver'
+export { packages } from '@infrastructure/drivers/shared/CodeCompilerDriver/JavascriptRunnerDriver'
 
 export default class extends App {
   constructor(options?: { drivers?: Partial<Drivers>; integrations?: Partial<Integrations> }) {

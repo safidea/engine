@@ -1,2 +1,6 @@
 export { drivers } from '@infrastructure/drivers/bun'
-export { integrations } from '@infrastructure/integrations/bun'
+import { mocks } from '@infrastructure/integrations/mocks/bun'
+
+export const integrations = {
+  mocks,
+}

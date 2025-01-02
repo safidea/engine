@@ -1,6 +1,6 @@
-import { test, expect, env } from '@test/fixtures'
+import { test, expect, env, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
-import { integration } from '@test/integration/notion'
+import { integration } from 'test/e2e/integrations/notion'
 
 test('should update a page', async ({ request }) => {
   // GIVEN
@@ -42,7 +42,7 @@ test('should update a page', async ({ request }) => {
       },
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
   const table = await integration.getTable(env.TEST_NOTION_TABLE_1_ID)
   const { id } = await table.insert({ name: 'John' })

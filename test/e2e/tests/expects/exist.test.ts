@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
 test('should return a success exist', async () => {
@@ -51,7 +51,7 @@ test('should return a success exist', async () => {
   }
 
   // WHEN
-  const app = new App()
+  const app = new NodeApp()
   const call = () => app.test(config)
 
   // THEN
@@ -108,7 +108,7 @@ test('should return a failed equal', async () => {
   }
 
   // WHEN
-  const app = new App()
+  const app = new NodeApp()
   const call = () => app.test(config)
 
   // THEN

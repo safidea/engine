@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
 test('should render a link', async ({ page }) => {
@@ -21,7 +21,7 @@ test('should render a link', async ({ page }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -53,7 +53,7 @@ test('should display a link in app page', async ({ page }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -84,7 +84,7 @@ test('should display an active link', async ({ page }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -115,7 +115,7 @@ test('should display an inactive link in the link path page', async ({ page }) =
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -145,7 +145,7 @@ test('should display an active link in the link path page', async ({ page }) => 
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -176,7 +176,7 @@ test('should display the link with id', async ({ page }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN

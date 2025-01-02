@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type CodeRunnerContext, type Config } from '@latechforce/engine'
 
 test('should run an automation from api call', async ({ request }) => {
@@ -17,7 +17,7 @@ test('should run an automation from api call', async ({ request }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -57,7 +57,7 @@ test('should return a value', async ({ request }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -99,7 +99,7 @@ test('should return an error', async ({ request }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -135,7 +135,7 @@ test('should validate an optional input', async ({ request }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -170,7 +170,7 @@ test('should not validate an required input', async ({ request }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN

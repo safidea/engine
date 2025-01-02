@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 // import Database from '@test/drivers/database'
 
@@ -26,7 +26,7 @@ test.describe('Table component', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
 
     // WHEN
     const call = () => app.start(config)
@@ -73,7 +73,7 @@ test.describe('Table component', () => {
         ],
         database: dbConfig,
       }
-      const app = new App()
+      const app = new NodeApp()
       const { url } = await app.start(config)
       await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
 
@@ -131,7 +131,7 @@ test.describe('Table component', () => {
         ],
         database: dbConfig,
       }
-      const app = new App()
+      const app = new NodeApp()
       const { url } = await app.start(config)
       await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
 
@@ -179,7 +179,7 @@ test.describe('Table component', () => {
         ],
         database: dbConfig,
       }
-      const app = new App()
+      const app = new NodeApp()
       const { url } = await app.start(config)
       await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
 

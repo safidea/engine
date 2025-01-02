@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
 test.slow()
@@ -96,7 +96,7 @@ test('should click on a link in a email', async () => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
 
   // WHEN
   const call = () => app.test(config)

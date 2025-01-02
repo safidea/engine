@@ -1,7 +1,7 @@
 import fs from 'fs-extra'
 import { join } from 'path'
 import { container } from './setup'
-import { cleanTestTable } from '@test/integration/notion'
+import { cleanTestTable } from 'test/e2e/integrations/notion'
 
 async function globalTeardown() {
   const isUnitTest = process.argv.includes('test/unit')

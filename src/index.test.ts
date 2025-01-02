@@ -15,5 +15,5 @@ test('should instanciate an App with custom drivers', async () => {
 })
 
 test('should instanciate an App with custom integrations', async () => {
-  expect(new App({ integrations })).toBeDefined()
+  expect(new App({ integrations: integrations.mocks })).toBeDefined()
 })

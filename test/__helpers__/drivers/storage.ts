@@ -1,4 +1,4 @@
-import { StorageDriver } from '@infrastructure/drivers/StorageDriver'
+import { StorageDriver } from '@infrastructure/drivers/shared/StorageDriver'
 import Logger from './logger'
 import Database from './database'
 

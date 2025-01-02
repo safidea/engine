@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type CodeRunnerContext, type Config } from '@latechforce/engine'
 
 test('should convert a date from a format to another format', async ({ request }) => {
@@ -40,7 +40,7 @@ test('should convert a date from a format to another format', async ({ request }
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN

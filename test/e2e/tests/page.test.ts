@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
 test.slow()
@@ -25,7 +25,7 @@ test('should find an invalid page title', async () => {
   }
 
   // WHEN
-  const app = new App()
+  const app = new NodeApp()
   const call = () => app.test(config)
 
   // THEN
@@ -54,7 +54,7 @@ test('should find a page title', async () => {
   }
 
   // WHEN
-  const app = new App()
+  const app = new NodeApp()
   const call = () => app.test(config)
 
   // THEN
@@ -87,7 +87,7 @@ test('should not find a text', async () => {
   }
 
   // WHEN
-  const app = new App()
+  const app = new NodeApp()
   const call = () => app.test(config)
 
   // THEN
@@ -120,7 +120,7 @@ test('should find a text', async () => {
   }
 
   // WHEN
-  const app = new App()
+  const app = new NodeApp()
   const call = () => app.test(config)
 
   // THEN
@@ -153,7 +153,7 @@ test('should not find a text in a specific tag', async () => {
   }
 
   // WHEN
-  const app = new App()
+  const app = new NodeApp()
   const call = () => app.test(config)
 
   // THEN
@@ -186,7 +186,7 @@ test('should find a text in a specific tag', async () => {
   }
 
   // WHEN
-  const app = new App()
+  const app = new NodeApp()
   const call = () => app.test(config)
 
   // THEN
@@ -220,7 +220,7 @@ test('should not find an attribute in a specific tag', async () => {
   }
 
   // WHEN
-  const app = new App()
+  const app = new NodeApp()
   const call = () => app.test(config)
 
   // THEN
@@ -254,7 +254,7 @@ test('should find a text of an attribute in a specific tag', async () => {
   }
 
   // WHEN
-  const app = new App()
+  const app = new NodeApp()
   const call = () => app.test(config)
 
   // THEN
@@ -305,7 +305,7 @@ test('should not find an input with a specific value', async () => {
   }
 
   // WHEN
-  const app = new App()
+  const app = new NodeApp()
   const call = () => app.test(config)
 
   // THEN
@@ -356,7 +356,7 @@ test('should find an input with a specific value', async () => {
   }
 
   // WHEN
-  const app = new App()
+  const app = new NodeApp()
   const call = () => app.test(config)
 
   // THEN
@@ -427,7 +427,7 @@ test('should submit a form into database', async () => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
 
   // WHEN
   const call = () => app.test(config)

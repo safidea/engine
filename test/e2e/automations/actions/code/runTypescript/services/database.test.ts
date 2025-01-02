@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type CodeRunnerContext, type Config } from '@latechforce/engine'
 import Database from '@test/drivers/database'
 
@@ -49,7 +49,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -112,7 +112,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -180,7 +180,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database
       .table('users')
@@ -254,7 +254,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database
       .table('users')
@@ -329,7 +329,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database
       .table('users')
@@ -395,7 +395,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database
       .table('users')
@@ -460,7 +460,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database
       .table('users')
@@ -527,7 +527,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database
       .table('users', [{ name: 'age', type: 'NUMERIC' }])
@@ -594,7 +594,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database
       .table('users', [{ name: 'valid', type: 'BOOLEAN' }])
@@ -659,7 +659,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     const birthdate = new Date()
     await database
@@ -715,7 +715,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database.table('users').insertMany([
       { id: '1', fields: { name: 'John Doe' }, created_at: new Date() },
@@ -778,7 +778,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database.table('users').insertMany([
       { id: '1', fields: { name: 'John Doe' }, created_at: new Date() },
@@ -837,7 +837,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database.table('users').insertMany([
       { id: '1', fields: { name: 'John Doe' }, created_at: new Date() },

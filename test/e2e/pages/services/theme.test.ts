@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 
 test.slow()
@@ -20,7 +20,7 @@ test('should load the output css file', async ({ page }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -53,7 +53,7 @@ test('should build the css file with a custom font', async ({ page }) => {
       },
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -87,7 +87,7 @@ test('should render a Paragraph with a font sans', async ({ page }) => {
       },
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -125,7 +125,7 @@ test('should render a Paragraph with a font serif', async ({ page }) => {
       },
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -163,7 +163,7 @@ test('should render a Link with a font serif', async ({ page }) => {
       },
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -201,7 +201,7 @@ test('should render a Title with a font serif', async ({ page }) => {
       },
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -238,7 +238,7 @@ test('should render a Markdown Paragraph with a font serif', async ({ page }) =>
       },
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -275,7 +275,7 @@ test('should render a Markdown Title with a font serif', async ({ page }) => {
       },
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -312,7 +312,7 @@ test('should render a Markdown Link with a font serif', async ({ page }) => {
       },
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN

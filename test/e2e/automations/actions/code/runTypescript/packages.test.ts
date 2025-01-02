@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type CodeRunnerContext, type Config } from '@latechforce/engine'
 
 test('should run a Typescript code with the date-fns package', async ({ request }) => {
@@ -33,7 +33,7 @@ test('should run a Typescript code with the date-fns package', async ({ request 
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -83,7 +83,7 @@ test('should run a Typescript code with xml2js package', async ({ request }) => 
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -129,7 +129,7 @@ test('should run a Typescript code with axios package', async ({ request }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -172,7 +172,7 @@ test('should run a Typescript code with https package', async ({ request }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -215,7 +215,7 @@ test('should run a Typescript code with crypto package', async ({ request }) => 
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -258,7 +258,7 @@ test('should run a Typescript code with lodash package', async ({ request }) => 
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN

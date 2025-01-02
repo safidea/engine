@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import Database from '@test/drivers/database'
 import App, { type Config } from '@latechforce/engine'
 
@@ -35,7 +35,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database.table('models').insertMany([
       { id: '1', fields: { name: 'Model 3' }, created_at: new Date() },
@@ -83,7 +83,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database.table('models').insertMany([
       { id: '1', fields: { name: 'Model 3' }, created_at: new Date() },
@@ -135,7 +135,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const startedApp = await app.start(config)
     await startedApp.stop()
 
@@ -171,7 +171,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database.table('cars').insertMany([
       { id: '1', fields: { name: 'Model 3' }, created_at: new Date() },

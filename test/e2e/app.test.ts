@@ -1,11 +1,11 @@
-import { test, expect, env } from '@test/fixtures'
-import App, { type Config } from '@latechforce/engine'
+import { test, expect, env, NodeApp } from '@test/fixtures'
+import { type Config } from '@latechforce/engine'
 import Database from '@test/drivers/database'
 
 test('should throw an error if config is empty', async () => {
   // GIVEN
   const config = {}
-  const app = new App()
+  const app = new NodeApp()
 
   // WHEN
   const call = () => app.start(config)
@@ -31,7 +31,7 @@ test('should start an app', async () => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
 
   // WHEN
   const { url } = await app.start(config)
@@ -79,7 +79,7 @@ Database.each(test, (database) => {
       ],
       database,
     }
-    const app = new App()
+    const app = new NodeApp()
 
     // WHEN
     const callTest = () => app.test(config)
@@ -109,7 +109,7 @@ test('should start an app on a dedicated PORT', async () => {
     ],
     server: { port: '6543' },
   }
-  const app = new App()
+  const app = new NodeApp()
 
   // WHEN
   const { url } = await app.start(config)
@@ -135,7 +135,7 @@ test('should check the app running status through /health endpoint', async ({ re
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -162,7 +162,7 @@ test('should stop an app', async ({ request }) => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
   const startedApp = await app.start(config)
 
   // WHEN
@@ -196,7 +196,7 @@ test('should display a config error on test', async () => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
 
   // WHEN
   const call = async () => app.test(config)
@@ -228,7 +228,7 @@ test('should display a config error on start', async () => {
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
 
   // WHEN
   const call = async () => app.start(config)
@@ -247,7 +247,7 @@ test('should be able to use Notion as an integration', async () => {
       },
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { integrations } = await app.start(config)
   const { notion } = integrations
 
@@ -277,7 +277,7 @@ Database.SQLite(test, async (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { services } = await app.start(config)
     const { database } = services
 
@@ -294,7 +294,7 @@ test('should be able to use Logger as a service', async () => {
   const config: Config = {
     name: 'App',
   }
-  const app = new App()
+  const app = new NodeApp()
   const { services } = await app.start(config)
   const { logger } = services
 

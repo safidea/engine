@@ -825,7 +825,6 @@
         },
         "DatabaseDriverName": {
             "enum": [
-                "Bun",
                 "PostgreSQL",
                 "SQLite"
             ],

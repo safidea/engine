@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 import Database from '@test/drivers/database'
 import Storage from '@test/drivers/storage'
@@ -20,7 +20,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
 
     // WHEN
     await app.start(config)
@@ -42,7 +42,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await storage.bucket('invoices').save({
       id: '1',
@@ -73,7 +73,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await storage.bucket('invoices').save({
       id: '1',

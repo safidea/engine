@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type CodeRunnerContext, type Config } from '@latechforce/engine'
 import { instrument } from '@latechforce/engine/instrument'
 import { getSentryEvents, type Event } from '@test/drivers/monitor'
@@ -48,7 +48,7 @@ test.describe('Sentry driver', () => {
       ],
     }
     instrument(config)
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN

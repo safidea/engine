@@ -1,6 +1,6 @@
-import { test, expect, env } from '@test/fixtures'
+import { test, expect, env, NodeApp } from '@test/fixtures'
 import App, { type CodeRunnerContext, type Config } from '@latechforce/engine'
-import { integration as notion } from '@test/integration/notion'
+import { integration as notion } from 'test/e2e/integrations/notion'
 
 const { TEST_NOTION_TABLE_1_ID, TEST_NOTION_TOKEN, TEST_NOTION_TABLE_FILES_ID } = env
 
@@ -58,7 +58,7 @@ test('should run a Typescript code with a Notion database page insert', async ({
       },
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN
@@ -131,7 +131,7 @@ test('should run a Typescript code with a Notion database page update', async ({
       },
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
   const { id } = await table.insert({ name: 'John' })
@@ -211,7 +211,7 @@ test('should run a Typescript code with a Notion database page update and a noti
       },
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
   const { id } = await table.insert({ files: [] })
@@ -284,7 +284,7 @@ test('should run a Typescript code with a Notion database page retrieve', async 
       },
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
   const { id } = await table.insert({ name: 'John Doe' })
@@ -355,7 +355,7 @@ test('should run a Typescript code with a Notion database page archive', async (
       },
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
   const { id } = await table.insert({ name: 'John Doe' })
@@ -433,7 +433,7 @@ test('should run a Typescript code with a Notion database page list', async ({ r
       },
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
   const users = await table.insertMany([
@@ -511,7 +511,7 @@ test('should run a Typescript code with a Notion database page and a title prope
       },
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
   const table = await notion.getTable(env.TEST_NOTION_TABLE_1_ID)
   const { id } = await table.insert({ name: 'John Doe' })
@@ -567,7 +567,7 @@ test('should run a Typescript code with a Notion users list', async ({ request }
       },
     },
   }
-  const app = new App()
+  const app = new NodeApp()
   const { url } = await app.start(config)
 
   // WHEN

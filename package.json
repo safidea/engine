@@ -11,6 +11,7 @@
   "exports": {
     ".": "./dist/index.js",
     "./bun": "./dist/bun.js",
+    "./node": "./dist/node.js",
     "./instrument": "./dist/infrastructure/instrument/index.js",
     "./schema/*": "./schema/*"
   },
@@ -44,9 +45,9 @@
     "watch:schema": "nodemon --config script/schema/watch.json",
     "watch": "concurrently \"bun run watch:schema\" \"bun run watch:client\" \"bun run watch:server\" \"bun run watch:types\"",
     "pretest": "bunx playwright install --with-deps",
-    "test": "bun run test:unit && bunx playwright test",
+    "test": "bun run test:unit && bun run test:integration && bun run test:e2e",
     "test:unit": "bun test src --bail",
-    "test:integration": "bunx playwright test test/integration",
+    "test:integration": "bun test test/integration --bail",
     "test:e2e": "bunx playwright test test/e2e",
     "test:ui": "bunx playwright test --ui",
     "test:snapshots": "bunx playwright test --update-snapshots",

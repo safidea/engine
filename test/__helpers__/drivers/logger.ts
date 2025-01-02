@@ -1,7 +1,7 @@
 import { Client } from '@elastic/elasticsearch'
 import { LoggerSpi } from '@adapter/spi/drivers/LoggerSpi'
 import { Logger, type LoggersConfig } from '@domain/services/Logger'
-import { LoggerDriver } from '@infrastructure/drivers/LoggerDriver'
+import { LoggerDriver } from '@infrastructure/drivers/shared/LoggerDriver'
 
 export default class extends Logger {
   constructor() {

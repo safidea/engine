@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
 // import Database from '@test/drivers/database'
 
@@ -25,7 +25,7 @@ test('should return an error config if source is not valid table endpoint', asyn
       },
     ],
   }
-  const app = new App()
+  const app = new NodeApp()
 
   // WHEN
   const call = () => app.start(config)
@@ -73,7 +73,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
 
@@ -121,7 +121,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
 
@@ -170,7 +170,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
 
@@ -221,7 +221,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database.table('leads').insert({ id: '1', name: 'John', created_at: new Date() })
 

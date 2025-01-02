@@ -1,4 +1,4 @@
-import { QueueDriver } from '@infrastructure/drivers/QueueDriver'
+import { QueueDriver } from '@infrastructure/drivers/shared/QueueDriver'
 import Logger from './logger'
 import Database from './database'
 

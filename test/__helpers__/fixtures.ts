@@ -8,47 +8,21 @@ import {
   type TestType,
 } from '@playwright/test'
 import Logger from '@test/drivers/logger'
+import env from '@test/env'
+import type { TestRunnerIntegration } from './runner'
+import App from '@latechforce/engine'
+import { drivers } from '@latechforce/engine/node'
+
+export class NodeApp extends App {
+  constructor() {
+    super({ drivers })
+  }
+}
 
 export type Test = TestType<
   PlaywrightTestArgs & PlaywrightTestOptions,
   PlaywrightWorkerArgs & PlaywrightWorkerOptions
 >
-
-const {
-  TEST_NOTION_TOKEN,
-  TEST_NOTION_TABLE_1_ID,
-  TEST_NOTION_TABLE_2_ID,
-  TEST_NOTION_TABLE_FILES_ID,
-  TEST_PAPPERS_API_KEY,
-  TEST_QONTO_ORGANISATION_SLUG,
-  TEST_QONTO_SECRET_KEY,
-  TEST_QONTO_STAGING_TOKEN,
-  TEST_NGROK_AUTH_TOKEN,
-} = process.env
-
-if (!TEST_NOTION_TOKEN) throw new Error('TEST_NOTION_TOKEN env var is not defined')
-if (!TEST_NOTION_TABLE_1_ID) throw new Error('TEST_NOTION_TABLE_1_ID env var is not defined')
-if (!TEST_NOTION_TABLE_2_ID) throw new Error('TEST_NOTION_TABLE_2_ID env var is not defined')
-if (!TEST_NOTION_TABLE_FILES_ID)
-  throw new Error('TEST_NOTION_TABLE_FILES_ID env var is not defined')
-if (!TEST_PAPPERS_API_KEY) throw new Error('TEST_PAPPERS_API_KEY env var is not defined')
-if (!TEST_QONTO_ORGANISATION_SLUG)
-  throw new Error('TEST_QONTO_ORGANISATION_SLUG env var is not defined')
-if (!TEST_QONTO_SECRET_KEY) throw new Error('TEST_QONTO_SECRET_KEY env var is not defined')
-if (!TEST_QONTO_STAGING_TOKEN) throw new Error('TEST_QONTO_STAGING_TOKEN env var is not defined')
-if (!TEST_NGROK_AUTH_TOKEN) throw new Error('TEST_NGROK_AUTH_TOKEN env var is not defined')
-
-export const env = {
-  TEST_NOTION_TOKEN,
-  TEST_NOTION_TABLE_1_ID,
-  TEST_NOTION_TABLE_2_ID,
-  TEST_NOTION_TABLE_FILES_ID,
-  TEST_PAPPERS_API_KEY,
-  TEST_QONTO_ORGANISATION_SLUG,
-  TEST_QONTO_SECRET_KEY,
-  TEST_QONTO_STAGING_TOKEN,
-  TEST_NGROK_AUTH_TOKEN,
-}
 
 export const test: Test = base.extend({
   page: async ({ page }, use) => {
@@ -67,4 +41,18 @@ console.info = function () {
   // do nothing
 }
 
-export { expect }
+export const runner: TestRunnerIntegration = {
+  test,
+  describe: test.describe,
+  it: test,
+  expect,
+  beforeAll: test.beforeAll,
+  beforeEach: test.beforeEach,
+  afterAll: test.afterAll,
+  afterEach: test.afterEach,
+  slow: test.slow,
+  env: {},
+  isIntegration: true,
+}
+
+export { expect, env }

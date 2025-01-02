@@ -1,6 +1,6 @@
-import { test, expect, env } from '@test/fixtures'
+import { test, expect, env, NodeApp } from '@test/fixtures'
 import App, { type Config } from '@latechforce/engine'
-import { testTable } from '@test/integration/notion'
+import { testTable } from 'test/e2e/integrations/notion'
 import Database from '@test/drivers/database'
 
 test.slow()
@@ -30,7 +30,7 @@ Database.SQLite(test, async (dbConfig) => {
       },
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     await app.start(config)
 
     // WHEN
@@ -73,7 +73,7 @@ Database.SQLite(test, async (dbConfig) => {
       },
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     await app.start(config)
 
     // WHEN
@@ -127,7 +127,7 @@ Database.SQLite(test, async (dbConfig) => {
       },
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     await app.start(config)
 
     // WHEN

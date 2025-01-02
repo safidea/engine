@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import Database from '@test/drivers/database'
 import App, { type Config } from '@latechforce/engine'
 
@@ -53,7 +53,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database
       .table('items', [
@@ -126,7 +126,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database
       .table('members', [
@@ -213,7 +213,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
     await database
       .table('items', [
@@ -274,7 +274,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     await database.table('members').create()
     await database.table('members').insertMany([
       {
@@ -340,7 +340,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     await database.table('members').create()
     await database.table('members').insertMany([
       {
@@ -462,7 +462,7 @@ Database.each(test, (dbConfig) => {
       ],
       database: dbConfig,
     }
-    const app = new App()
+    const app = new NodeApp()
     const items = database.table('items', [
       { name: 'price', type: 'NUMERIC' },
       { name: 'quantity', type: 'NUMERIC' },

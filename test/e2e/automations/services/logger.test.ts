@@ -1,4 +1,4 @@
-import { test, expect } from '@test/fixtures'
+import { test, expect, NodeApp } from '@test/fixtures'
 import App, { type CodeRunnerContext, type Config } from '@latechforce/engine'
 import { nanoid } from 'nanoid'
 import fs from 'fs-extra'
@@ -19,7 +19,7 @@ test.describe('File driver', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
 
     // WHEN
     await app.start(config)
@@ -67,7 +67,7 @@ test.describe('File driver', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -116,7 +116,7 @@ test.describe('File driver', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -172,7 +172,7 @@ test.describe('ElasticSearch driver', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
     const { url } = await app.start(config)
 
     // WHEN
@@ -203,7 +203,7 @@ test.describe('ElasticSearch driver', () => {
         },
       ],
     }
-    const app = new App()
+    const app = new NodeApp()
 
     // WHEN
     await app.start(config)
