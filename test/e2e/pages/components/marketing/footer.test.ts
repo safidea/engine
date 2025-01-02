@@ -1,5 +1,5 @@
 import { test, expect, NodeApp } from '@test/fixtures'
-import App, { type Config } from '@latechforce/engine'
+import { type Config } from '@latechforce/engine'
 
 test.describe('Footer component', () => {
   test('should render a footer with id', async ({ page }) => {

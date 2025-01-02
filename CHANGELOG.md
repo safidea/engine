@@ -1,136 +1,118 @@
 ## [0.34.59](https://github.com/latechforce/engine/compare/v0.34.58...v0.34.59) (2024-12-30)
 
-
 ### Bug Fixes
 
-* **Notion:** add green tests from Notion Bun Integration ([ae22c55](https://github.com/latechforce/engine/commit/ae22c556442d3991204ace05116a43ffee7296af))
+- **Notion:** add green tests from Notion Bun Integration ([ae22c55](https://github.com/latechforce/engine/commit/ae22c556442d3991204ace05116a43ffee7296af))
 
 ## [0.34.58](https://github.com/latechforce/engine/compare/v0.34.57...v0.34.58) (2024-12-30)
 
-
 ### Bug Fixes
 
-* **Notion:** fix broken file path ([d5ca0c6](https://github.com/latechforce/engine/commit/d5ca0c6ec2a7717b7c0c1215ad3dd3b1668dc000))
-* **Notion:** fix broken tests ([2450eab](https://github.com/latechforce/engine/commit/2450eab799a11e9e7d95a50c394354be561b2653))
+- **Notion:** fix broken file path ([d5ca0c6](https://github.com/latechforce/engine/commit/d5ca0c6ec2a7717b7c0c1215ad3dd3b1668dc000))
+- **Notion:** fix broken tests ([2450eab](https://github.com/latechforce/engine/commit/2450eab799a11e9e7d95a50c394354be561b2653))
 
 ## [0.34.57](https://github.com/latechforce/engine/compare/v0.34.56...v0.34.57) (2024-12-28)
 
-
 ### Bug Fixes
 
-* **CodeRunner:** export NotionTablePage and DatabaseTableRecord as classes ([0692641](https://github.com/latechforce/engine/commit/069264188834d035c1a6e82e152004858758079b))
+- **CodeRunner:** export NotionTablePage and DatabaseTableRecord as classes ([0692641](https://github.com/latechforce/engine/commit/069264188834d035c1a6e82e152004858758079b))
 
 ## [0.34.56](https://github.com/latechforce/engine/compare/v0.34.55...v0.34.56) (2024-12-28)
 
-
 ### Bug Fixes
 
-* **CodeRunner:** add green test: should export packages ([54a2037](https://github.com/latechforce/engine/commit/54a203776c8082b6f561584644a8318c5c908d67))
+- **CodeRunner:** add green test: should export packages ([54a2037](https://github.com/latechforce/engine/commit/54a203776c8082b6f561584644a8318c5c908d67))
 
 ## [0.34.55](https://github.com/latechforce/engine/compare/v0.34.54...v0.34.55) (2024-12-28)
 
-
 ### Bug Fixes
 
-* **Database:** add green unit tests ([a7ab338](https://github.com/latechforce/engine/commit/a7ab33895f8df23717fa9e3f3be454a10eec5aa3))
-* **Field:** fix rollup broken tests ([3960527](https://github.com/latechforce/engine/commit/3960527f45d2af028f539327d0e5f6b9130a1310))
+- **Database:** add green unit tests ([a7ab338](https://github.com/latechforce/engine/commit/a7ab33895f8df23717fa9e3f3be454a10eec5aa3))
+- **Field:** fix rollup broken tests ([3960527](https://github.com/latechforce/engine/commit/3960527f45d2af028f539327d0e5f6b9130a1310))
 
 ## [0.34.54](https://github.com/latechforce/engine/compare/v0.34.53...v0.34.54) (2024-12-27)
 
-
 ### Bug Fixes
 
-* **Notion:** convert metadatas from string to Date ([0fe7dbc](https://github.com/latechforce/engine/commit/0fe7dbc629aed9194624bfdcb376985ca4191a6a))
+- **Notion:** convert metadatas from string to Date ([0fe7dbc](https://github.com/latechforce/engine/commit/0fe7dbc629aed9194624bfdcb376985ca4191a6a))
 
 ## [0.34.53](https://github.com/latechforce/engine/compare/v0.34.52...v0.34.53) (2024-12-27)
 
-
 ### Bug Fixes
 
-* **eslint:** update config ([07676c3](https://github.com/latechforce/engine/commit/07676c33a6887bc7059dd9c3583ab3cbeed484ea))
-* **package:** update ([8618e52](https://github.com/latechforce/engine/commit/8618e52e49e22dab2fbf2ec3f04ddacfaa920de7))
-* **RunTypescript:** add default value to Types ([22aa09f](https://github.com/latechforce/engine/commit/22aa09f27d013ba5ca00d070bbdf038cd9d70a15))
+- **eslint:** update config ([07676c3](https://github.com/latechforce/engine/commit/07676c33a6887bc7059dd9c3583ab3cbeed484ea))
+- **package:** update ([8618e52](https://github.com/latechforce/engine/commit/8618e52e49e22dab2fbf2ec3f04ddacfaa920de7))
+- **RunTypescript:** add default value to Types ([22aa09f](https://github.com/latechforce/engine/commit/22aa09f27d013ba5ca00d070bbdf038cd9d70a15))
 
 ## [0.34.52](https://github.com/latechforce/engine/compare/v0.34.51...v0.34.52) (2024-12-27)
 
-
 ### Bug Fixes
 
-* **RunTypescript:** add type passing in Notion integration and Database service ([ddf1a43](https://github.com/latechforce/engine/commit/ddf1a43c1bac9307c68ad38ac3b2f18cc8fa6b10))
+- **RunTypescript:** add type passing in Notion integration and Database service ([ddf1a43](https://github.com/latechforce/engine/commit/ddf1a43c1bac9307c68ad38ac3b2f18cc8fa6b10))
 
 ## [0.34.51](https://github.com/latechforce/engine/compare/v0.34.50...v0.34.51) (2024-12-27)
 
-
 ### Bug Fixes
 
-* **Notion:** add green test: should get a table id without -' ([5283d82](https://github.com/latechforce/engine/commit/5283d82fa9b995a6559145bc22bbcfc875b6c3ca))
-* **Notion:** fix broken test: should start an automation when a Notion page is created in a table ([d6ea5cf](https://github.com/latechforce/engine/commit/d6ea5cfc3999220c56332c1463d87bb2bb0d2cd2))
+- **Notion:** add green test: should get a table id without -' ([5283d82](https://github.com/latechforce/engine/commit/5283d82fa9b995a6559145bc22bbcfc875b6c3ca))
+- **Notion:** fix broken test: should start an automation when a Notion page is created in a table ([d6ea5cf](https://github.com/latechforce/engine/commit/d6ea5cfc3999220c56332c1463d87bb2bb0d2cd2))
 
 ## [0.34.50](https://github.com/latechforce/engine/compare/v0.34.49...v0.34.50) (2024-12-26)
 
-
 ### Bug Fixes
 
-* **Database:** export DatabaseTableUpdateRecordFields ([c4db191](https://github.com/latechforce/engine/commit/c4db19104334d465c81cd354fd7dd160eb4ff036))
-* **Database:** replace undefined by null ([fdbf89c](https://github.com/latechforce/engine/commit/fdbf89c294856a5963658cd0f14823b2c1ec7a5f))
+- **Database:** export DatabaseTableUpdateRecordFields ([c4db191](https://github.com/latechforce/engine/commit/c4db19104334d465c81cd354fd7dd160eb4ff036))
+- **Database:** replace undefined by null ([fdbf89c](https://github.com/latechforce/engine/commit/fdbf89c294856a5963658cd0f14823b2c1ec7a5f))
 
 ## [0.34.49](https://github.com/latechforce/engine/compare/v0.34.48...v0.34.49) (2024-12-26)
 
-
 ### Bug Fixes
 
-* **Database:** add green test: should run a Typescript code with a database many update ([f7091bf](https://github.com/latechforce/engine/commit/f7091bfba8c52456386ef27de1b7949935841f27))
-* **Database:** fix broken tests ([f2e811b](https://github.com/latechforce/engine/commit/f2e811b8fc16fa12e9145f9563740356ed76ad18))
+- **Database:** add green test: should run a Typescript code with a database many update ([f7091bf](https://github.com/latechforce/engine/commit/f7091bfba8c52456386ef27de1b7949935841f27))
+- **Database:** fix broken tests ([f2e811b](https://github.com/latechforce/engine/commit/f2e811b8fc16fa12e9145f9563740356ed76ad18))
 
 ## [0.34.48](https://github.com/latechforce/engine/compare/v0.34.47...v0.34.48) (2024-12-26)
 
-
 ### Bug Fixes
 
-* **Filter:** add green test: should list pages in a table with a OnOrAfter string filter ([e48dd1a](https://github.com/latechforce/engine/commit/e48dd1a83398c202b6fb73b34232298af81017bd))
+- **Filter:** add green test: should list pages in a table with a OnOrAfter string filter ([e48dd1a](https://github.com/latechforce/engine/commit/e48dd1a83398c202b6fb73b34232298af81017bd))
 
 ## [0.34.47](https://github.com/latechforce/engine/compare/v0.34.46...v0.34.47) (2024-12-25)
 
-
 ### Bug Fixes
 
-* **Record:** remove useless code ([5192ede](https://github.com/latechforce/engine/commit/5192ede15fdbdd0d3484dd6a7cca6e259e2eb32f))
+- **Record:** remove useless code ([5192ede](https://github.com/latechforce/engine/commit/5192ede15fdbdd0d3484dd6a7cca6e259e2eb32f))
 
 ## [0.34.46](https://github.com/latechforce/engine/compare/v0.34.45...v0.34.46) (2024-12-24)
 
-
 ### Bug Fixes
 
-* **App:** add Started and Stopped type export ([426c90d](https://github.com/latechforce/engine/commit/426c90d9dfdc8bb462873cfc0a571aa8c0111ba5))
+- **App:** add Started and Stopped type export ([426c90d](https://github.com/latechforce/engine/commit/426c90d9dfdc8bb462873cfc0a571aa8c0111ba5))
 
 ## [0.34.45](https://github.com/latechforce/engine/compare/v0.34.44...v0.34.45) (2024-12-24)
 
-
 ### Bug Fixes
 
-* **Notion:** add green test: should create a page in a table with an empty phone property ([7f88f2f](https://github.com/latechforce/engine/commit/7f88f2ff0c43202836fe5f89a0aa3cff8812c403))
-* **Notion:** add NotionUser export ([b747fdc](https://github.com/latechforce/engine/commit/b747fdc745dc610b8391dd7f306a4927d6be6db2))
+- **Notion:** add green test: should create a page in a table with an empty phone property ([7f88f2f](https://github.com/latechforce/engine/commit/7f88f2ff0c43202836fe5f89a0aa3cff8812c403))
+- **Notion:** add NotionUser export ([b747fdc](https://github.com/latechforce/engine/commit/b747fdc745dc610b8391dd7f306a4927d6be6db2))
 
 ## [0.34.44](https://github.com/latechforce/engine/compare/v0.34.43...v0.34.44) (2024-12-23)
 
-
 ### Bug Fixes
 
-* **Notion:** add green test: should run a Typescript code with a Notion users list ([83896c5](https://github.com/latechforce/engine/commit/83896c549b77b238588fc89417fea8a1594ea8fa))
+- **Notion:** add green test: should run a Typescript code with a Notion users list ([83896c5](https://github.com/latechforce/engine/commit/83896c549b77b238588fc89417fea8a1594ea8fa))
 
 ## [0.34.43](https://github.com/latechforce/engine/compare/v0.34.42...v0.34.43) (2024-12-23)
 
-
 ### Bug Fixes
 
-* **App:** add green test: should be able to use Logger as a service ([fc73451](https://github.com/latechforce/engine/commit/fc73451703fb873ca4a29a23978000743d726418))
+- **App:** add green test: should be able to use Logger as a service ([fc73451](https://github.com/latechforce/engine/commit/fc73451703fb873ca4a29a23978000743d726418))
 
 ## [0.34.42](https://github.com/latechforce/engine/compare/v0.34.41...v0.34.42) (2024-12-23)
 
-
 ### Bug Fixes
 
-* **Filter:** export Filter type ([0f8e5f3](https://github.com/latechforce/engine/commit/0f8e5f352a0965457d6f9c7365bd2fa3c9e11a3d))
+- **Filter:** export Filter type ([0f8e5f3](https://github.com/latechforce/engine/commit/0f8e5f352a0965457d6f9c7365bd2fa3c9e11a3d))
 
 ## [0.34.41](https://github.com/latechforce/engine/compare/v0.34.40...v0.34.41) (2024-12-22)
 

@@ -1,5 +1,5 @@
 import { test, expect, env, NodeApp } from '@test/fixtures'
-import App, { type CodeRunnerContext, type Config } from '@latechforce/engine'
+import { type CodeRunnerContext, type Config } from '@latechforce/engine'
 import { integration as notion } from 'test/e2e/integrations/notion'
 
 const { TEST_NOTION_TABLE_1_ID, TEST_NOTION_TOKEN, TEST_NOTION_TABLE_FILES_ID } = env

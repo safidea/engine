@@ -11,5 +11,3 @@
 - [ ] pouvoir configurer plusieurs bases de données et indiquer dans les tables la base de données à utiliser
 - [ ] dans le run code API, pour sélection la base de données à utiliser avant de sélectionner la table
 - [ ] exporter une fonction qui permet de générer un type Typescript à partir d'une table (via Zod)
-
-

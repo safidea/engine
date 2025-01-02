@@ -1,5 +1,5 @@
 import { test, expect, NodeApp } from '@test/fixtures'
-import App, { type CodeRunnerContext, type Config } from '@latechforce/engine'
+import { type CodeRunnerContext, type Config } from '@latechforce/engine'
 
 test('should convert a date from a format to another format', async ({ request }) => {
   // GIVEN

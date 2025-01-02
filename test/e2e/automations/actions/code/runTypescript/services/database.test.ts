@@ -1,5 +1,5 @@
 import { test, expect, NodeApp } from '@test/fixtures'
-import App, { type CodeRunnerContext, type Config } from '@latechforce/engine'
+import { type CodeRunnerContext, type Config } from '@latechforce/engine'
 import Database from '@test/drivers/database'
 
 Database.each(test, (dbConfig) => {

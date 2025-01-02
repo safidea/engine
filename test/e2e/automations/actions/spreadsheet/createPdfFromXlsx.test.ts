@@ -1,5 +1,5 @@
 import { test, expect, NodeApp } from '@test/fixtures'
-import App, { type Config } from '@latechforce/engine'
+import { type Config } from '@latechforce/engine'
 import Database from '@test/drivers/database'
 import Storage from '@test/drivers/storage'
 import SpreadsheetLoader from '@test/drivers/spreadsheetLoader'

@@ -1,5 +1,5 @@
 import { test, expect, env, NodeApp } from '@test/fixtures'
-import App, { type Config } from '@latechforce/engine'
+import { type Config } from '@latechforce/engine'
 
 test('should create a client', async ({ request }) => {
   // GIVEN

@@ -1,6 +1,6 @@
 import { test, expect, NodeApp } from '@test/fixtures'
 import Database from '@test/drivers/database'
-import App, { type Config } from '@latechforce/engine'
+import { type Config } from '@latechforce/engine'
 
 Database.each(test, (dbConfig) => {
   test('should create a record with a formula field as a number', async ({ request }) => {

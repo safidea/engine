@@ -1,5 +1,5 @@
 import { test, expect, env, NodeApp } from '@test/fixtures'
-import App, { type Config } from '@latechforce/engine'
+import { type Config } from '@latechforce/engine'
 import { integration } from 'test/e2e/integrations/notion'
 
 test('should update a page', async ({ request }) => {
