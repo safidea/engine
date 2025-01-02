@@ -2,14 +2,11 @@ import type { Logger } from '@domain/services/Logger'
 import type { Server } from '@domain/services/Server'
 import type { Database } from '@domain/services/Database'
 import type { Table } from '../Table'
-import type { Page } from '../Page'
 import type { Bucket } from '../Bucket'
 import type { Automation } from '../Automation'
 import type { Queue } from '@domain/services/Queue'
 import type { Mailer } from '@domain/services/Mailer'
 import type { Realtime } from '@domain/services/Realtime'
-import type { Auth } from '@domain/services/Auth'
-import type { Theme } from '@domain/services/Theme'
 import type { Storage } from '@domain/services/Storage'
 import type { Monitor } from '@domain/services/Monitor'
 import type { Notion } from '@domain/integrations/Notion'
@@ -22,12 +19,10 @@ export interface AppConfig {
 export interface AppServices {
   logger: Logger
   server: Server
-  theme: Theme
   database: Database
   queue: Queue
   mailer: Mailer
   realtime: Realtime
-  auth: Auth
   storage: Storage
   monitor: Monitor
   codeCompiler: CodeCompiler
@@ -35,7 +30,6 @@ export interface AppServices {
 
 export interface AppEntities {
   tables: Table[]
-  pages: Page[]
   automations: Automation[]
   buckets: Bucket[]
 }

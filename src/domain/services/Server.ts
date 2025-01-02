@@ -60,7 +60,7 @@ export class Server {
     logger.debug('initializing server routes...')
     await this.get('/health', async () => new JsonResponse({ success: true }))
     await callback()
-    if (this.notFoundHandler) await this.notFoundHandler()
+    await this.notFound()
     await this._spi.afterAllRoutes()
   }
 
@@ -102,19 +102,17 @@ export class Server {
     logger.debug(`add DELETE handler ${path}`)
   }
 
-  notFound = async (pageHandler: (get: GetRequest) => Promise<Response>) => {
+  notFound = async () => {
     const { logger } = this._services
-    this.notFoundHandler = async () => {
-      await this._spi.notFound(async (request: Request) => {
-        logger.http(`404 ${request.path}`)
-        if (request.path.startsWith('/api/table/')) {
-          const table = request.path.split('/').pop()
-          return new JsonResponse({ error: `Table "${table}" not found` }, 404)
-        }
-        return pageHandler(request)
-      })
-      logger.debug(`add 404 handler`)
-    }
+    await this._spi.notFound(async (request: Request) => {
+      logger.http(`404 ${request.path}`)
+      if (request.path.startsWith('/api/table/')) {
+        const table = request.path.split('/').pop()
+        return new JsonResponse({ error: `Table "${table}" not found` }, 404)
+      }
+      return new JsonResponse({ error: 'Not found' }, 404)
+    })
+    logger.debug(`add 404 handler`)
   }
 
   start = async (): Promise<string> => {

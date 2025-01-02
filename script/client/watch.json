@@ -1,6 +1,0 @@
-{
-  "watch": ["src/infrastructure/client/"],
-  "ext": "ts,tsx",
-  "ignore": ["dist/", "node_modules/", "src/**/*.test.ts"],
-  "exec": "DEBUG=* bun run build:client"
-}

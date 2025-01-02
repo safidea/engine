@@ -18,18 +18,6 @@ test('should start an app', async () => {
   // GIVEN
   const config: Config = {
     name: 'App',
-    pages: [
-      {
-        name: 'Page',
-        path: '/',
-        body: [
-          {
-            component: 'Paragraph',
-            text: 'Hello world!',
-          },
-        ],
-      },
-    ],
   }
   const app = new NodeApp()
 
@@ -40,73 +28,10 @@ test('should start an app', async () => {
   expect(url).toBeDefined()
 })
 
-Database.each(test, (database) => {
-  test('should start an app after testing tests', async () => {
-    test.slow()
-
-    // GIVEN
-    const config: Config = {
-      name: 'App',
-      tests: [
-        {
-          name: 'display invalid text',
-          when: [{ event: 'Open', url: '/' }],
-          then: [{ expect: 'Text', text: 'Hello world!' }],
-        },
-      ],
-      pages: [
-        {
-          name: 'Page',
-          path: '/',
-          body: [
-            {
-              component: 'Paragraph',
-              text: 'Hello world!',
-            },
-          ],
-        },
-      ],
-      tables: [
-        {
-          name: 'leads',
-          fields: [
-            {
-              name: 'name',
-              field: 'SingleLineText',
-            },
-          ],
-        },
-      ],
-      database,
-    }
-    const app = new NodeApp()
-
-    // WHEN
-    const callTest = () => app.test(config)
-    const callStart = () => app.start(config)
-
-    // THEN
-    await expect(callTest()).resolves.toBeUndefined()
-    await expect(callStart()).resolves.toBeDefined()
-  })
-})
-
 test('should start an app on a dedicated PORT', async () => {
   // GIVEN
   const config: Config = {
     name: 'App',
-    pages: [
-      {
-        name: 'Page',
-        path: '/',
-        body: [
-          {
-            component: 'Paragraph',
-            text: 'Hello world!',
-          },
-        ],
-      },
-    ],
     server: { port: '6543' },
   }
   const app = new NodeApp()
@@ -122,18 +47,6 @@ test('should check the app running status through /health endpoint', async ({ re
   // GIVEN
   const config: Config = {
     name: 'App',
-    pages: [
-      {
-        name: 'Page',
-        path: '/',
-        body: [
-          {
-            component: 'Paragraph',
-            text: 'Hello world!',
-          },
-        ],
-      },
-    ],
   }
   const app = new NodeApp()
   const { url } = await app.start(config)
@@ -149,18 +62,6 @@ test('should stop an app', async ({ request }) => {
   // GIVEN
   const config: Config = {
     name: 'App',
-    pages: [
-      {
-        name: 'Page',
-        path: '/',
-        body: [
-          {
-            component: 'Paragraph',
-            text: 'Hello world!',
-          },
-        ],
-      },
-    ],
   }
   const app = new NodeApp()
   const startedApp = await app.start(config)
@@ -171,70 +72,6 @@ test('should stop an app', async ({ request }) => {
 
   // THEN
   expect(response.message).toContain('ECONNREFUSED')
-})
-
-test('should display a config error on test', async () => {
-  // GIVEN
-  const config: Config = {
-    name: 'App',
-    pages: [
-      {
-        name: 'Page',
-        path: '/',
-        body: [
-          {
-            component: 'Table',
-            table: 'leads',
-            fields: [
-              {
-                name: 'name',
-                label: 'Name',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  }
-  const app = new NodeApp()
-
-  // WHEN
-  const call = async () => app.test(config)
-
-  // THEN
-  await expect(call()).rejects.toThrow('Table "leads" not found')
-})
-
-test('should display a config error on start', async () => {
-  // GIVEN
-  const config: Config = {
-    name: 'App',
-    pages: [
-      {
-        name: 'Page',
-        path: '/',
-        body: [
-          {
-            component: 'Table',
-            table: 'leads',
-            fields: [
-              {
-                name: 'name',
-                label: 'Name',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  }
-  const app = new NodeApp()
-
-  // WHEN
-  const call = async () => app.start(config)
-
-  // THEN
-  await expect(call()).rejects.toThrow('Table "leads" not found')
 })
 
 test('should be able to use Notion as an integration', async () => {

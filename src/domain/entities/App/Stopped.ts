@@ -1,7 +1,4 @@
-import type { Page } from '../Page'
 import type { ConfigError } from '@domain/entities/Error/Config'
-import { GetRequest } from '@domain/entities/Request/Get'
-import { PageState } from '../Page/State'
 import {
   BaseApp,
   type AppConfig,
@@ -23,33 +20,23 @@ export class StoppedApp extends BaseApp {
   }
 
   init = async (): Promise<void> => {
-    const { theme, server } = this._services
-    const { tables, pages, automations, buckets } = this._entities
+    const { server } = this._services
+    const { tables, automations, buckets } = this._entities
     const { notion } = this._integrations
     await server.init(async () => {
-      if (theme) {
-        const getHtmlContent = (page: Page) =>
-          page.htmlWithSampleProps(
-            new PageState(new GetRequest({ path: page.path, baseUrl: server.baseUrl }))
-          )
-        const htmlContents = await Promise.all(pages.map(getHtmlContent))
-        await theme.init(htmlContents)
-      }
       await notion.init()
       for (const table of tables) await table.init()
       for (const automation of automations) await automation.init()
-      for (const page of pages) await page.init()
       for (const bucket of buckets) await bucket.init()
     })
   }
 
   validateConfig = async (): Promise<ConfigError[]> => {
     await this.init()
-    const { tables, pages, automations, buckets } = this._entities
+    const { tables, automations, buckets } = this._entities
     const errors: Promise<ConfigError[]>[] = []
     errors.push(...tables.map((table) => table.validateConfig()))
     errors.push(...buckets.map((bucket) => bucket.validateConfig()))
-    errors.push(...pages.map((page) => page.validateConfig()))
     errors.push(...automations.map((automation) => automation.validateConfig()))
     return Promise.all(errors).then((errors) => errors.flat())
   }
