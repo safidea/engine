@@ -1,3 +1,10 @@
+# [0.35.0](https://github.com/latechforce/engine/compare/v0.34.59...v0.35.0) (2025-01-02)
+
+
+### Features
+
+* **App:** can use Node or Bun drivers in app ([2a7e072](https://github.com/latechforce/engine/commit/2a7e0720a7a8592c4d269ef668627f741def9318))
+
 ## [0.34.59](https://github.com/latechforce/engine/compare/v0.34.58...v0.34.59) (2024-12-30)
 
 ### Bug Fixes
