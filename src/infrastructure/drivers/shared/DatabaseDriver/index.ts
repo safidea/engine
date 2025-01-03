@@ -39,7 +39,7 @@ export class DatabaseDriver implements IDatabaseDriver {
     return this._db.query(text, values)
   }
 
-  table(name: string, fields: FieldDto[]) {
+  table(name: string, fields: FieldDto[] = []) {
     return this._db.table(name, fields)
   }
 

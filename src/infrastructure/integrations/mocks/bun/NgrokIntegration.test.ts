@@ -1,8 +1,8 @@
 import { testNgrokIntegration } from 'test/e2e/integrations/ngrok.shared'
-import { NgrokBunIntegration } from './NgrokIntegration'
+import { NgrokIntegration } from './NgrokIntegration'
 import runner from 'bun:test'
 
-const integration = new NgrokBunIntegration({
+const integration = new NgrokIntegration({
   authToken: 'test',
 })
 

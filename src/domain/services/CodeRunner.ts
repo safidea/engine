@@ -27,6 +27,7 @@ export interface CodeRunnerContextServicesDatabaseTable<T extends RecordFields =
   read: (filter: FilterConfig) => Promise<Record<T> | undefined>
   readById: (id: string) => Promise<Record<T> | undefined>
   list: (filter?: FilterConfig) => Promise<Record<T>[]>
+  exists: () => Promise<boolean>
 }
 
 // TODO: installer Zod sur l'engine pour générer ce type à partir des schemas de la DB et avec les tables de la Database déjà typées

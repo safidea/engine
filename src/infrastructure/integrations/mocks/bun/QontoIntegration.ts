@@ -2,7 +2,7 @@ import type { QontoClient, QontoCreateClient, QontoConfig } from '@domain/integr
 import type { IQontoIntegration } from '@adapter/spi/integrations/QontoSpi'
 import { Database } from 'bun:sqlite'
 
-export class QontoBunIntegration implements IQontoIntegration {
+export class QontoIntegration implements IQontoIntegration {
   private db: Database
 
   constructor(private _config?: QontoConfig) {

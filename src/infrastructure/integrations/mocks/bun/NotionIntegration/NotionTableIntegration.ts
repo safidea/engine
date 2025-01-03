@@ -9,7 +9,7 @@ import { nanoid } from 'nanoid'
 import type { RecordFields } from '@domain/entities/Record'
 import type { FieldDto } from '@adapter/spi/dtos/FieldDto'
 
-export class NotionTableBunIntegration implements INotionTableIntegration {
+export class NotionTableIntegration implements INotionTableIntegration {
   readonly id: string
   readonly name: string
   private _properties: FieldDto[]

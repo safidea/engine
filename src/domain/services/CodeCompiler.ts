@@ -72,6 +72,9 @@ export class CodeCompiler {
             const filter = filterConfig && FilterMapper.toEntity(filterConfig)
             return await table.db.list<T>(filter)
           },
+          exists: async () => {
+            return table.db.exists()
+          },
         }
       },
     }

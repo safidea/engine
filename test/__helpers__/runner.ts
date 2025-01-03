@@ -27,7 +27,12 @@ export interface Expect extends SyncExpect {
 export interface TestRunnerBase {
   test: (testName: string, fn: () => Promise<void>) => void
   describe: (description: string, fn: () => void) => void
-  it: (testName: string, fn: () => Promise<void>) => void
+  it: (
+    testName: string,
+    fn: () => Promise<void>
+  ) => void | {
+    only: (testName: string, fn: () => Promise<void>) => void
+  }
   expect: (actual: any) => Expect
   beforeAll: (fn: () => Promise<void>) => void
   afterAll: (fn: () => Promise<void>) => void

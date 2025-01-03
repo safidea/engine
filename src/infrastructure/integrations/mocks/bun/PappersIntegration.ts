@@ -2,7 +2,7 @@ import type { IPappersIntegration } from '@adapter/spi/integrations/PappersSpi'
 import type { PappersConfig, PappersEntreprise } from '@domain/integrations/Pappers'
 import { Database } from 'bun:sqlite'
 
-export class PappersBunIntegration implements IPappersIntegration {
+export class PappersIntegration implements IPappersIntegration {
   private db: Database
 
   constructor(private _config?: PappersConfig) {

@@ -23,11 +23,31 @@ type Row = {
 }
 
 export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
+  public fields: FieldDto[] = []
+
   constructor(
     private _name: string,
-    private _fields: FieldDto[],
+    fieldsWithoutMetadata: FieldDto[],
     private _db: pg.Pool
-  ) {}
+  ) {
+    this.fields = [
+      {
+        name: 'id',
+        type: 'TEXT',
+        required: true,
+      },
+      {
+        name: 'created_at',
+        type: 'TIMESTAMP',
+        required: true,
+      },
+      {
+        name: 'updated_at',
+        type: 'TIMESTAMP',
+      },
+      ...fieldsWithoutMetadata,
+    ]
+  }
 
   exists = async () => {
     const result = await this._db.query(
@@ -38,6 +58,8 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
   }
 
   create = async () => {
+    const exists = await this.exists()
+    if (exists) throw new Error(`Table "${this._name}" already exists`)
     const [schema, table] = this._name.includes('.')
       ? this._name.split('.')
       : ['public', this._name]
@@ -45,7 +67,7 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
       const createSchemaQuery = `CREATE SCHEMA IF NOT EXISTS ${schema}`
       await this._db.query(createSchemaQuery)
     }
-    const tableColumns = this._buildColumnsQuery(this._fields)
+    const tableColumns = this._buildColumnsQuery(this.fields)
     const tableQuery = `CREATE TABLE ${schema}.${table} (${tableColumns})`
     await this._db.query(tableQuery)
     await this._createManyToManyTables()
@@ -53,7 +75,7 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
 
   migrate = async () => {
     const existingColumns = await this._getExistingColumns()
-    const staticFields = this._fields.filter((field) => !this._isViewField(field))
+    const staticFields = this.fields.filter((field) => !this._isViewField(field))
     const fieldsToAdd = staticFields.filter(
       (field) =>
         !existingColumns.some(
@@ -99,14 +121,19 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
     await this._createManyToManyTables()
   }
 
-  dropView = async () => {
-    const query = `DROP VIEW IF EXISTS ${this._name}_view`
-    await this._db.query(query)
+  viewExists = async () => {
+    const result = await this._db.query(
+      `SELECT table_name FROM information_schema.views WHERE table_schema = 'public' AND table_name = $1`,
+      [this._name + '_view']
+    )
+    return result.rows.length > 0
   }
 
   createView = async () => {
     let joins = ''
-    const columns = this._fields
+    const exists = await this.viewExists()
+    if (exists) throw new Error(`View "${this._name}_view" already exists`)
+    const columns = this.fields
       .map((field) => {
         if (field.formula) {
           if (field.table && field.tableField) {
@@ -119,7 +146,7 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
             }
             return `CAST(${formula} AS ${field.type}) AS "${field.name}"`
           } else {
-            const expandedFormula = this._fields.reduce((acc, f) => {
+            const expandedFormula = this.fields.reduce((acc, f) => {
               const regex = new RegExp(`\\b${f.name}\\b`, 'g')
               return acc.replace(regex, f.formula ? `(${f.formula})` : `"${f.name}"`)
             }, field.formula)
@@ -134,6 +161,11 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
       .join(', ')
     let query = `CREATE VIEW ${this._name}_view AS SELECT ${columns} FROM ${this._name}`
     if (joins) query += joins + ` GROUP BY ${this._name}.id`
+    await this._db.query(query)
+  }
+
+  dropView = async () => {
+    const query = `DROP VIEW IF EXISTS ${this._name}_view`
     await this._db.query(query)
   }
 
@@ -264,7 +296,7 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
   }
 
   private _createManyToManyTables = async () => {
-    for (const field of this._fields) {
+    for (const field of this.fields) {
       if (field.type === 'TEXT[]' && field.table) {
         const manyToManyTableName = this._getManyToManyTableName(field.table)
         const query = `
@@ -284,7 +316,7 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
     const staticFields: { [key: string]: RecordFieldValue } = {}
     const manyToManyFields: { [key: string]: string[] } = {}
     for (const [key, value] of Object.entries(row)) {
-      const field = this._fields.find((f) => f.name === key)
+      const field = this.fields.find((f) => f.name === key)
       if (field?.type === 'TEXT[]' && field.table && Array.isArray(value)) {
         manyToManyFields[key] = value
       } else {
@@ -299,7 +331,7 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
     manyToManyFields: { [key: string]: string[] }
   ) => {
     for (const [fieldName, ids] of Object.entries(manyToManyFields)) {
-      const field = this._fields.find((f) => f.name === fieldName)
+      const field = this.fields.find((f) => f.name === fieldName)
       const tableName = field?.table
       if (!tableName) throw new Error('Table name not found.')
       const manyToManyTableName = this._getManyToManyTableName(tableName)
@@ -315,7 +347,7 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
     manyToManyFields: { [key: string]: string[] }
   ) => {
     for (const [fieldName, ids] of Object.entries(manyToManyFields)) {
-      const field = this._fields.find((f) => f.name === fieldName)
+      const field = this.fields.find((f) => f.name === fieldName)
       const tableName = field?.table
       if (!tableName) throw new Error('Table name not found.')
       const manyToManyTableName = this._getManyToManyTableName(tableName)
@@ -354,7 +386,7 @@ export class PostgreSQLDatabaseTableDriver implements IDatabaseTableDriver {
   private _preprocess = <T extends RecordFields>(record: Partial<T>): RecordFields => {
     return Object.keys(record).reduce((acc: RecordFields, key) => {
       const value = record[key]
-      const field = this._fields.find((f) => f.name === key)
+      const field = this.fields.find((f) => f.name === key)
       if (value === undefined || value === null) return acc
       if (key in acc) {
         if (field?.type === 'TIMESTAMP') {

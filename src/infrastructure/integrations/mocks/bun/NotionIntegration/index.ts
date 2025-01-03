@@ -1,5 +1,5 @@
 import type { INotionIntegration } from '@adapter/spi/integrations/NotionSpi'
-import { NotionTableBunIntegration } from './NotionTableIntegration'
+import { NotionTableIntegration } from './NotionTableIntegration'
 import type { NotionConfig } from '@domain/integrations/Notion'
 import type { NotionUserDto } from '@adapter/spi/dtos/NotionUserDto'
 import { SQLiteDatabaseDriver } from '@infrastructure/drivers/bun/DatabaseDriver/SQLiteDriver'
@@ -18,7 +18,7 @@ export interface UserObject extends RecordFields {
   avatarUrl: string | null
 }
 
-export class NotionBunIntegration implements INotionIntegration {
+export class NotionIntegration implements INotionIntegration {
   private _db: SQLiteDatabaseDriver
   private _tables?: SQLiteDatabaseTableDriver
   private _users?: SQLiteDatabaseTableDriver
@@ -31,10 +31,6 @@ export class NotionBunIntegration implements INotionIntegration {
     await this._db.connect()
     this._tables = this._db.table('tables', [
       {
-        name: 'id',
-        type: 'TEXT',
-      },
-      {
         name: 'title',
         type: 'TEXT',
       },
@@ -42,20 +38,8 @@ export class NotionBunIntegration implements INotionIntegration {
         name: 'properties',
         type: 'TEXT',
       },
-      {
-        name: 'created_at',
-        type: 'TIMESTAMP',
-      },
-      {
-        name: 'updated_at',
-        type: 'TIMESTAMP',
-      },
     ])
     this._users = this._db.table('users', [
-      {
-        name: 'id',
-        type: 'TEXT',
-      },
       {
         name: 'email',
         type: 'TEXT',
@@ -67,14 +51,6 @@ export class NotionBunIntegration implements INotionIntegration {
       {
         name: 'avatarUrl',
         type: 'TEXT',
-      },
-      {
-        name: 'created_at',
-        type: 'TIMESTAMP',
-      },
-      {
-        name: 'updated_at',
-        type: 'TIMESTAMP',
       },
     ])
     await this._tables.create()
@@ -97,7 +73,7 @@ export class NotionBunIntegration implements INotionIntegration {
     }
     const { properties } = table.fields
     const fields = JSON.parse(String(properties))
-    const notionTable = new NotionTableBunIntegration(this._db.table(id, fields), table)
+    const notionTable = new NotionTableIntegration(this._db.table(id, fields), table)
     const exist = await notionTable.exists()
     if (!exist) {
       await notionTable.create()

@@ -7,8 +7,7 @@
 - [x] remove useless export from index.ts
 - [x] add Notion Bun Integration
 
-- [ ] remove useless codes
-- [ ] merge Sentry and ElasticSearch to integrations
+- [x] remove useless codes
 - [ ] merge e2e test to integration test
 
 - [ ] intégrer Notion comme si c'était une base de données au même titre que better-sqlite3, postgresql, bun:sqlite

@@ -23,15 +23,23 @@ type Row = {
 }
 
 export class SQLiteDatabaseTableDriver implements IDatabaseTableDriver {
+  public fields: FieldDto[]
+
   constructor(
     private _name: string,
-    private _fields: FieldDto[],
+    fieldsWithoutMetadata: FieldDto[],
     private _db: SQLite.Database
   ) {
     const [schema, table] = this._name.includes('.')
       ? this._name.split('.')
       : ['public', this._name]
     this._name = schema === 'public' ? table : `${schema}_${table}`
+    this.fields = [
+      ...fieldsWithoutMetadata,
+      { name: 'id', type: 'TEXT', required: true },
+      { name: 'created_at', type: 'TIMESTAMP', required: true },
+      { name: 'updated_at', type: 'TIMESTAMP' },
+    ]
   }
 
   exists = async () => {
@@ -42,7 +50,9 @@ export class SQLiteDatabaseTableDriver implements IDatabaseTableDriver {
   }
 
   create = async () => {
-    const tableColumns = this._buildColumnsQuery(this._fields)
+    const exists = await this.exists()
+    if (exists) throw new Error(`Table "${this._name}" already exists`)
+    const tableColumns = this._buildColumnsQuery(this.fields)
     const tableQuery = `CREATE TABLE ${this._name} (${tableColumns})`
     this._db.exec(tableQuery)
     await this._createManyToManyTables()
@@ -50,7 +60,7 @@ export class SQLiteDatabaseTableDriver implements IDatabaseTableDriver {
 
   migrate = async () => {
     const existingColumns = this._getExistingColumns()
-    const staticFields = this._fields.filter((field) => !this._isViewField(field))
+    const staticFields = this.fields.filter((field) => !this._isViewField(field))
     const fieldsToAdd = staticFields.filter(
       (field) =>
         !existingColumns.some(
@@ -108,14 +118,18 @@ export class SQLiteDatabaseTableDriver implements IDatabaseTableDriver {
     await this._createManyToManyTables()
   }
 
-  dropView = async () => {
-    const query = `DROP VIEW IF EXISTS ${this._name}_view`
-    this._db.exec(query)
+  viewExists = async () => {
+    const result = this._db
+      .prepare(`SELECT name FROM sqlite_master WHERE type='view' AND name = ?`)
+      .all(this._name + '_view')
+    return result.length > 0
   }
 
   createView = async () => {
     let joins = ''
-    const columns = this._fields
+    const exists = await this.viewExists()
+    if (exists) throw new Error(`View "${this._name}_view" already exists`)
+    const columns = this.fields
       .map((field) => {
         if (field.formula) {
           if (field.table && field.tableField) {
@@ -128,7 +142,7 @@ export class SQLiteDatabaseTableDriver implements IDatabaseTableDriver {
             }
             return `CAST(${formula} AS ${field.type}) AS "${field.name}"`
           } else {
-            const expandedFormula = this._fields.reduce((acc, f) => {
+            const expandedFormula = this.fields.reduce((acc, f) => {
               const regex = new RegExp(`\\b${f.name}\\b`, 'g')
               return acc.replace(regex, f.formula ? `(${f.formula})` : `"${f.name}"`)
             }, field.formula)
@@ -143,6 +157,11 @@ export class SQLiteDatabaseTableDriver implements IDatabaseTableDriver {
       .join(', ')
     let query = `CREATE VIEW ${this._name}_view AS SELECT ${columns} FROM ${this._name}`
     if (joins) query += joins + ` GROUP BY ${this._name}.id`
+    this._db.exec(query)
+  }
+
+  dropView = async () => {
+    const query = `DROP VIEW IF EXISTS ${this._name}_view`
     this._db.exec(query)
   }
 
@@ -263,7 +282,7 @@ export class SQLiteDatabaseTableDriver implements IDatabaseTableDriver {
   }
 
   private _createManyToManyTables = async () => {
-    for (const field of this._fields) {
+    for (const field of this.fields) {
       if (field.type === 'TEXT[]' && field.table) {
         const manyToManyTableName = this._getManyToManyTableName(field.table)
         const query = `
@@ -287,7 +306,7 @@ export class SQLiteDatabaseTableDriver implements IDatabaseTableDriver {
     const staticFields: { [key: string]: RecordFieldValue } = {}
     const manyToManyFields: { [key: string]: string[] } = {}
     for (const [key, value] of Object.entries(row)) {
-      const field = this._fields.find((f) => f.name === key)
+      const field = this.fields.find((f) => f.name === key)
       if (field?.type === 'TEXT[]' && field.table && Array.isArray(value)) {
         manyToManyFields[key] = value
       } else {
@@ -302,7 +321,7 @@ export class SQLiteDatabaseTableDriver implements IDatabaseTableDriver {
     manyToManyFields: { [key: string]: string[] }
   ) => {
     for (const [fieldName, ids] of Object.entries(manyToManyFields)) {
-      const field = this._fields.find((f) => f.name === fieldName)
+      const field = this.fields.find((f) => f.name === fieldName)
       const tableName = field?.table
       if (!tableName) throw new Error('Table name not found.')
       const manyToManyTableName = this._getManyToManyTableName(tableName)
@@ -318,7 +337,7 @@ export class SQLiteDatabaseTableDriver implements IDatabaseTableDriver {
     manyToManyFields: { [key: string]: string[] }
   ) => {
     for (const [fieldName, ids] of Object.entries(manyToManyFields)) {
-      const field = this._fields.find((f) => f.name === fieldName)
+      const field = this.fields.find((f) => f.name === fieldName)
       const tableName = field?.table
       if (!tableName) throw new Error('Table name not found.')
       const manyToManyTableName = this._getManyToManyTableName(tableName)
@@ -348,7 +367,7 @@ export class SQLiteDatabaseTableDriver implements IDatabaseTableDriver {
         key
       ) => {
         const value = record[key]
-        const field = this._fields.find((f) => f.name === key)
+        const field = this.fields.find((f) => f.name === key)
         if (value === undefined || value === null) {
           acc[key] = null
         } else if (field?.type === 'TIMESTAMP') {
@@ -369,7 +388,7 @@ export class SQLiteDatabaseTableDriver implements IDatabaseTableDriver {
     const { id, created_at, updated_at, ...fieldsToProcess } = row
     const fields = Object.keys(fieldsToProcess).reduce((acc: RecordFields, key) => {
       const value = row[key]
-      const field = this._fields.find((f) => f.name === key)
+      const field = this.fields.find((f) => f.name === key)
       if (value === undefined || value === null) return acc
       if (field?.type === 'TIMESTAMP') {
         acc[key] = new Date(Number(value))

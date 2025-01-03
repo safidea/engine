@@ -1,9 +1,9 @@
 import runner from 'bun:test'
-import { PappersBunIntegration } from './PappersIntegration'
+import { PappersIntegration } from './PappersIntegration'
 import { testPappersIntegration } from 'test/e2e/integrations/pappers.shared'
 import type { PappersEntreprise } from '@domain/integrations/Pappers'
 
-const integration = new PappersBunIntegration({
+const integration = new PappersIntegration({
   apiKey: 'test',
 })
 

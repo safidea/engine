@@ -1,19 +1,14 @@
 import runner from 'bun:test'
 import { testNotionIntegration } from 'test/e2e/integrations/notion.shared'
-import { NotionBunIntegration } from '.'
+import { NotionIntegration } from '.'
 
-const integration = new NotionBunIntegration({
+const integration = new NotionIntegration({
   token: 'test',
 })
 
 await integration.connect()
 
-await integration.addTable('table_1', 'Table 1', [
-  {
-    name: 'id',
-    type: 'TEXT',
-  },
-])
+await integration.addTable('table_1', 'Table 1', [])
 
 await integration.addUser({
   id: '1',
